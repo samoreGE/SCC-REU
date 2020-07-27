@@ -1,0 +1,53 @@
+function randMassTester = randMassTester()
+
+clc
+
+% Determine where your m-file's folder is.
+folder = fileparts(which('randMassTester.m')); 
+% Add that folder plus all subfolders to the path.
+addpath(genpath(folder));
+
+rng(1);
+
+maxMembers = 4  %MUST BE GREATER THAN ONE (please)
+testsPerRound = 20
+
+generator = Generator;
+
+roster = Roster(generator, maxMembers);
+
+makeCast(roster, maxMembers, -2)
+
+posOffsetMeans = [];
+negOffsetMeans = [];
+for y = 2:maxMembers
+    [negOffTasks, negOffWorkers] = makeCast(roster,maxMembers, -y);
+    [negOffTasks, negOffWorkers] = makeCast(roster,maxMembers, -y);
+    posOffestMean = testMeans(doTests(x, testsPerRound, y));
+    negOffsetMean = testMeans(doTests(x, testsPerRound, -y));
+    posOffsetMeans(x-y, 1) = posOffestMean(1);
+    posOffsetMeans(x-y, 2) = posOffestMean(2);
+    negOffsetMeans(x-y, 1) = negOffsetMean(1);
+    negOffsetMeans(x-y, 2) = negOffsetMean(2);
+end
+
+end
+
+
+
+function doTests = doTests(tasks, members)
+%debug = "doTests, members=" + members + ", tests=" + tests + ", offset=" + offset
+
+end
+
+
+
+function testMeans = testMeans(test)
+sum1 = 0;
+sum2 = 0;
+for x = 1:length(test)
+    sum1 = sum1+test(x, 1);
+    sum2 = sum2+test(x, 2);
+end
+testMeans = [sum1/length(test), sum2/length(test)];
+end
