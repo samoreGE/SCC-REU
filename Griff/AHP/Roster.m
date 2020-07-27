@@ -60,11 +60,23 @@ classdef Roster
             workerSat = 0;
             taskSat = 0;
             for x = 1:castWorkers
-                workerSat =  workerSat + score(obj.workers(x), obj.tasks(pairs(x,2)));
+                x
+                pairs(x, 2)
+                if pairs(x, 2)>castTasks
+                    debug = "DO NOT MATCH"
+                else
+                    workerSat =  workerSat + score(obj.workers(x), obj.tasks(pairs(x,2)));
+                end
             end
             workerScores = workerSat/castWorkers;
             for x = 1:castTasks
-                taskSat =  taskSat + score(obj.tasks(x), obj.workers(pairs(x,1)));
+                x
+                pairs(x, 1)
+                if pairs(x, 1)>castWorkers
+                    debug = "DO NOT MATCH"
+                else
+                    taskSat =  taskSat + score(obj.tasks(x), obj.workers(pairs(x,1)))
+                end
             end
             taskScores = taskSat/castTasks;
         end
