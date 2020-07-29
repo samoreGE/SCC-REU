@@ -12,19 +12,16 @@ classdef Generator
         function outputArg = makeRealWorker
             %METHOD1 Summary of this method goes here
             %   Detailed explanation goes here
-            
-            val1 = rand;
-            val2 = (1-val1)*rand;
-            val3 = 1-val1-val2;
-            rankerDist = [val1, val2, val3];            
-            outputArg = Worker(rand, rand, rand, rankerDist);
+            prefMatrix = randomMatrix(3)
+            nMatrix = normalizeMatrix(prefMatrix);
+            handPVector = priorityVector(nMatrix)         
+            outputArg = Worker(rand, rand, rand, handPVector);
         end
         function outputArg = makeRealTask
-            val1 = rand;
-            val2 = (1-val1)*rand;
-            val3 = 1-val1-val2;
-            rankerDist = [val1, val2, val3];
-            outputArg = Task(rand, rand, rand, rankerDist);
+            prefMatrix = randomMatrix(3)
+            nMatrix = normalizeMatrix(prefMatrix);
+            handPVector = priorityVector(nMatrix)
+            outputArg = Task(rand, rand, rand, handPVector);
         end
         function outputArg = makeDummyWorker
             %METHOD1 Summary of this method goes here

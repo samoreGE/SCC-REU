@@ -8,8 +8,8 @@ addpath(genpath(folder));
 
 rng(1);
 
-maxMembers = 20  %MUST BE GREATER THAN ONE (please)
-maxOffset = 19
+maxMembers = 5  %MUST BE GREATER THAN ONE (please)
+maxOffset = 4
 
 generator = Generator;
 
@@ -36,10 +36,31 @@ for y = 0:maxOffset
     debug = "mutualPos SCORE";
     [mutualPosOffScores(y+1, 1), mutualPosOffScores(y+1, 2)] = scorePairs(roster, mutualPosPairs, mutualPosRanks, y);
 end
-plot(randNegOffScores)
+randNegOffScores
 mutualNegOffScores
 randPosOffScores
 mutualPosOffScores
+[randScores,  mutualScore] = combineScores(randNegOffScores, mutualNegOffScores, randPosOffScores, mutualPosOffScores)
+
+plot(mutualScore)
+
+end
+
+function [randScores,  mutualScore] = combineScores(randNeg, mutualNeg, randPos, mutualPos)
+arraysLength = length(randNeg)
+for x = 1:arraysLength
+    negSpot = arraysLength+1-x
+    posSpot = arraysLength+x-1
+    randScores(negSpot, 1) = randNeg(x, 1);
+    randScores(posSpot, 1) = randPos(x, 1);
+    randScores(negSpot, 2) = randNeg(x, 2);
+    randScores(posSpot, 2) = randPos(x, 2);
+    mutualScore(negSpot, 1) = mutualNeg(x, 1);
+    mutualScore(posSpot, 1) = mutualPos(x, 1);
+    mutualScore(negSpot, 2) = mutualNeg(x, 2);
+    mutualScore(posSpot, 2) = mutualPos(x, 2);
+    
+end
 end
 
 function [randomPairs, randomRanks, mutualPairs, mutualRanks] = doTests(tasks, workers)
