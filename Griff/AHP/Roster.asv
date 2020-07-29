@@ -21,7 +21,7 @@ classdef Roster
             end
         end
         
-        function [tasksOut, workersOut] = makeCast(obj, size, offset)
+        function [, tasksOut, workersOut] = makeCast(obj, size, offset)
             if offset>0
                 castTasks = size;
                 castWorkers = size-offset;
