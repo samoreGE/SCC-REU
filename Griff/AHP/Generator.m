@@ -12,15 +12,15 @@ classdef Generator
         function outputArg = makeRealWorker
             %METHOD1 Summary of this method goes here
             %   Detailed explanation goes here
-            prefMatrix = randomMatrix(3)
+            prefMatrix = randomMatrix(3);
             nMatrix = normalizeMatrix(prefMatrix);
-            handPVector = priorityVector(nMatrix)         
+            handPVector = priorityVector(nMatrix);         
             outputArg = Worker(rand, rand, rand, handPVector);
         end
         function outputArg = makeRealTask
-            prefMatrix = randomMatrix(3)
+            prefMatrix = randomMatrix(3);
             nMatrix = normalizeMatrix(prefMatrix);
-            handPVector = priorityVector(nMatrix)
+            handPVector = priorityVector(nMatrix);
             outputArg = Task(rand, rand, rand, handPVector);
         end
         function outputArg = makeDummyWorker
