@@ -57,23 +57,22 @@ classdef Roster
                 castTasks = length(obj.tasks);
                 castWorkers = length(obj.workers);
             end
-            castTasks
-            castWorkers
+            castTasks;
+            castWorkers;
             workerSat = 0;
             taskSat = 0;
             realMatches = 0;
-            taskStep = .5/castWorkers;
-            workerStep = .5/castTasks;
+            taskStep = 1/castWorkers;
+            workerStep = 1/castTasks;
             debug = "SCORING TASKS";
             for x = 1:castTasks
                 pick = pairs(x, 1);
                 rank  = ranks(x, 1);
                 if pairs(x, 1)>castWorkers
                     debug = "OPTION 1";
-                    taskSat     = taskSat + .5;
                 else
                     debug = "OPTION 2";
-                    taskSat     = taskSat + (((castWorkers - ranks(x, 1) + 1) * taskStep) + .5);
+                    taskSat     = taskSat + ((castWorkers - ranks(x, 1) + 1) * taskStep);
                 end
             end
             taskScores = taskSat/castTasks;
@@ -81,10 +80,9 @@ classdef Roster
             for x = 1:castWorkers
                 if pairs(x, 2)>castTasks
                     debug = "OPTION 1";
-                    workerSat   = workerSat + .5;
                 else
                     debug = "OPTION 2";
-                    workerSat   = workerSat + (((castTasks - ranks(x, 2) + 1) * workerStep) + .5);
+                    workerSat   = workerSat + ((castTasks - ranks(x, 2) + 1) * workerStep);
                     
                 end
             end

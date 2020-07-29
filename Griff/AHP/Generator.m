@@ -12,6 +12,7 @@ classdef Generator
         function outputArg = makeRealWorker
             %METHOD1 Summary of this method goes here
             %   Detailed explanation goes here
+            
             val1 = rand;
             val2 = (1-val1)*rand;
             val3 = 1-val1-val2;
