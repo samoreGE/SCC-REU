@@ -1,8 +1,8 @@
 function [randomPairs, randomRanks] = randomMatcher(pickers, targets)
 x = randperm(length(pickers));
 y = randperm(length(targets));
-taskPrefs = makeRanks(pickers, targets, length(pickers), length(targets));
-workerPrefs = makeRanks(targets, pickers, length(targets), length(pickers));
+taskPrefs = makeRanks(pickers, targets, length(pickers), length(targets))
+workerPrefs = makeRanks(targets, pickers, length(targets), length(pickers))
 for z = 1:length(x)
     randomPairs(z,1)=x(z);
     randomPairs(z,2)=y(z);
@@ -15,7 +15,7 @@ end
 
 function makeRanks = makeRanks(pickers, targets, pickersAmnt, targetsAmnt)
 for x = 1:pickersAmnt
-    ranker = pickers(x);
+    ranker = pickers(x)
     rankedSubjects = rankByPrefs(ranker, targets, targetsAmnt);
     for y = 1:targetsAmnt
         makeRanks(x,y) = rankedSubjects(y);
