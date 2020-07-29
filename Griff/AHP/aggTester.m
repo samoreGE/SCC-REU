@@ -36,8 +36,8 @@ for y = 0:maxMembers-1
     debug = "mutualPos SCORE"
     [mutualPosOffScores(y+1, 1), mutualPosOffScores(y+1, 2)] = scorePairs(roster, mutualPosPairs, mutualPosRanks, y);
 end
-%randNegOffScores
-%mutualNegOffScores
+randNegOffScores
+mutualNegOffScores
 randPosOffScores
 mutualPosOffScores
 end
