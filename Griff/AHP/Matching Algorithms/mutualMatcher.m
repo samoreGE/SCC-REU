@@ -1,7 +1,11 @@
-function mutualMatcher = mutualMatcher(pickers, targets)
-    taskPrefs = makeRanks(pickers, targets, length(pickers), length(targets));
-    workerPrefs = makeRanks(targets, pickers, length(targets), length(pickers));
-    mutualMatcher = SMP(taskPrefs, workerPrefs);
+function [mutualPairs, mutualRanks] = mutualMatcher(pickers, targets)
+taskPrefs = makeRanks(pickers, targets, length(pickers), length(targets));
+workerPrefs = makeRanks(targets, pickers, length(targets), length(pickers));
+mutualPairs = SMP(taskPrefs, workerPrefs);
+for x = 1:length(mutualPairs)
+    mutualRanks(x, 1) = find(taskPrefs(x, 1:length(taskPrefs))==mutualPairs(x,1));
+    mutualRanks(x, 2) = find(workerPrefs(x, 1:length(workerPrefs))==mutualPairs(x,2));
+end
 end
 
 function makeRanks = makeRanks(pickers, targets, pickersAmnt, targetsAmnt)

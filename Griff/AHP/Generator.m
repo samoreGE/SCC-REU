@@ -16,14 +16,14 @@ classdef Generator
             val2 = (1-val1)*rand;
             val3 = 1-val1-val2;
             rankerDist = [val1, val2, val3];            
-            outputArg = Worker(rand, rand, rand, rankerDist)
+            outputArg = Worker(rand, rand, rand, rankerDist);
         end
         function outputArg = makeRealTask
             val1 = rand;
             val2 = (1-val1)*rand;
             val3 = 1-val1-val2;
             rankerDist = [val1, val2, val3];
-            outputArg = Task(rand, rand, rand, rankerDist)
+            outputArg = Task(rand, rand, rand, rankerDist);
         end
         function outputArg = makeDummyWorker
             %METHOD1 Summary of this method goes here

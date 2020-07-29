@@ -16,7 +16,7 @@ B = [1  1/3 5;
     3   1   7;
     1/5 1/7 1;];
 
-C = randomMatrix(5);
+C = randomMatrix(5)
 
 test = A;
 

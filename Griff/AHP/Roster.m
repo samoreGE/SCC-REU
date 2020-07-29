@@ -23,14 +23,14 @@ classdef Roster
         
         function [workersOut, tasksOut] = makeCast(obj, size, offset)
             if offset>0
-                castTasks = size
-                castWorkers = size-offset
+                castTasks = size;
+                castWorkers = size-offset;
             elseif offset<0
-                castTasks = size+offset
-                castWorkers = size
+                castTasks = size+offset;
+                castWorkers = size;
             else
-                castTasks = size
-                castWorkers = size
+                castTasks = size;
+                castWorkers = size;
             end
             for x = 1:size
                 if x<castTasks
@@ -46,39 +46,60 @@ classdef Roster
             end
         end
         
-        function [taskScores, workerScores] = scorePairs(obj, pairs, offset)
+        function [taskScores, workerScores] = scorePairs(obj, pairs, ranks, offset)
             if offset>0
-                castTasks = length(obj.tasks)
-                castWorkers = length(obj.workers)-offset
+                castTasks = length(obj.tasks);
+                castWorkers = length(obj.workers)-offset;
             elseif offset<0
-                castTasks = length(obj.tasks)+offset
-                castWorkers = length(obj.workers)
+                castTasks = length(obj.tasks)+offset;
+                castWorkers = length(obj.workers);
             else
-                castTasks = length(obj.tasks)
-                castWorkers = length(obj.workers)
+                castTasks = length(obj.tasks);
+                castWorkers = length(obj.workers);
             end
+            castTasks;
+            castWorkers;
             workerSat = 0;
             taskSat = 0;
-            for x = 1:castWorkers
-                x
-                pairs(x, 2)
-                if pairs(x, 2)>castTasks
-                    debug = "DO NOT MATCH"
-                else
-                    workerSat =  workerSat + score(obj.workers(x), obj.tasks(pairs(x,2)));
-                end
-            end
-            workerScores = workerSat/castWorkers;
+            realMatches = 0;
+            taskStep = .5/castWorkers;
+            workerStep = .5/castTasks;
+            debug = "SCORING TASKS";
             for x = 1:castTasks
-                x
-                pairs(x, 1)
+                pick = pairs(x, 1);
+                rank  = ranks(x, 1);
                 if pairs(x, 1)>castWorkers
-                    debug = "DO NOT MATCH"
+                    debug = "OPTION 1";
+                    taskSat     = taskSat + .5;
                 else
-                    taskSat =  taskSat + score(obj.tasks(x), obj.workers(pairs(x,1)))
+                    debug = "OPTION 2";
+                    taskSat     = taskSat + (((castWorkers - ranks(x, 1) + 1) * taskStep) + .5);
                 end
             end
             taskScores = taskSat/castTasks;
+            debug = "SCORING WORKERS";
+            for x = 1:castWorkers
+                if pairs(x, 2)>castTasks
+                    debug = "OPTION 1";
+                    workerSat   = workerSat + .5;
+                else
+                    debug = "OPTION 2";
+                    workerSat   = workerSat + (((castTasks - ranks(x, 2) + 1) * workerStep) + .5);
+                    
+                end
+            end
+            workerScores = workerSat/castWorkers;
+            
+        end
+        
+        function makeRanks = makeRanks(pickers, targets, pickersAmnt, targetsAmnt)
+            for x = 1:pickersAmnt
+                ranker = pickers(x);
+                rankedSubjects = rankByPrefs(ranker, targets, targetsAmnt);
+                for y = 1:targetsAmnt
+                    makeRanks(x,y) = rankedSubjects(y);
+                end
+            end
         end
     end
 end
