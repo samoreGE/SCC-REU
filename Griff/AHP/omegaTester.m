@@ -7,22 +7,21 @@ clc
 folder = fileparts(which('omegaTester.m')); 
 % Add that folder plus all subfolders to the path.
 addpath(genpath(folder));
-rng(1)
-testsPerRound = 1
+testsPerRound = 20
 maxMembers = 20
 
 constTasks = zeros(maxMembers, 3);
 constWorkers = zeros(maxMembers, 3);
 offsetTasks = zeros((2 * maxMembers) -1, 3);
 offsetWorkers = zeros((2 * maxMembers) -1, 3);
-constTasks(1,1:3) = testsPerRound
-constWorkers(1,1:3) = testsPerRound
+constTasks(1,1:3) = testsPerRound;
+constWorkers(1,1:3) = testsPerRound;
 
 for z = 1:testsPerRound
     z
     [taskScores,  workerScores] = aggTester(maxMembers, maxMembers-1);
-    offsetTasks = offsetTasks + taskScores
-    offsetWorkers = offsetWorkers + workerScores
+    offsetTasks = offsetTasks + taskScores;
+    offsetWorkers = offsetWorkers + workerScores;
     for x = 2:maxMembers
         [taskMid,  workerMid] = aggTester(x, 1);
         newTasks(x, 1) = taskMid(2,1);
@@ -32,14 +31,14 @@ for z = 1:testsPerRound
         newTasks(x, 3) = taskMid(2,3);
         newWorkers(x, 3) = workerMid(2,3);
     end
-    constTasks = constTasks+ newTasks
-    constWorkers = constWorkers + newWorkers
+    constTasks = constTasks+ newTasks;
+    constWorkers = constWorkers + newWorkers;
 end
 
 constWorkers = constWorkers/testsPerRound
 constTasks = constTasks/testsPerRound
-%offsetTasks = offsetTasks/testsPerRound
-%offsetWorkers = offsetWorkers/testsPerRound
+offsetTasks = offsetTasks/testsPerRound
+offsetWorkers = offsetWorkers/testsPerRound
 plot(constTasks)
 end
 
