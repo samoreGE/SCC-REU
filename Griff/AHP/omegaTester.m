@@ -7,38 +7,39 @@ clc
 folder = fileparts(which('omegaTester.m')); 
 % Add that folder plus all subfolders to the path.
 addpath(genpath(folder));
+rng(1)
+testsPerRound = 1
+maxMembers = 20
 
-testsPerRound = 20
-maxMembers = 30
+constTasks = zeros(maxMembers, 3);
+constWorkers = zeros(maxMembers, 3);
+offsetTasks = zeros((2 * maxMembers) -1, 3);
+offsetWorkers = zeros((2 * maxMembers) -1, 3);
+constTasks(1,1:3) = testsPerRound
+constWorkers(1,1:3) = testsPerRound
 
-constTasks = zeros(maxMembers, 2)
-constWorkers = zeros(maxMembers, 2)
-offsetTasks = zeros((2 * maxMembers) -1, 2)
-offsetWorkers = zeros((2 * maxMembers) -1, 2)
-constTasks(1,1) = testsPerRound
-constTasks(1,2) = testsPerRound
-constWorkers(1,1) = testsPerRound
-constWorkers(1,2) = testsPerRound
-time = []
-for x = 2:maxMembers
-    x
-    for y = 1:testsPerRound
-        [randScores, mutualScores] = aggTester(x, x-1);
-        y;
-        randScores;
-        mutualScores;
-        constTasks(x, 1) = constTasks(x, 1) + randScores(x,1);
-        constWorkers(x, 1) = constWorkers(x, 1) + randScores(x,2);
-        constTasks(x, 2) = constTasks(x, 2) + mutualScores(x,1);
-        constWorkers(x, 2) = constWorkers(x, 2)+ mutualScores(x,2);
+for z = 1:testsPerRound
+    z
+    [taskScores,  workerScores] = aggTester(maxMembers, maxMembers-1);
+    offsetTasks = offsetTasks + taskScores
+    offsetWorkers = offsetWorkers + workerScores
+    for x = 2:maxMembers
+        [taskMid,  workerMid] = aggTester(x, 1);
+        newTasks(x, 1) = taskMid(2,1);
+        newWorkers(x, 1) = workerMid(2,1);
+        newTasks(x, 2) = taskMid(2,2);
+        newWorkers(x, 2) = workerMid(2,2);
+        newTasks(x, 3) = taskMid(2,3);
+        newWorkers(x, 3) = workerMid(2,3);
     end
-    constTasks
-    constWorkers
+    constTasks = constTasks+ newTasks
+    constWorkers = constWorkers + newWorkers
 end
+
 constWorkers = constWorkers/testsPerRound
 constTasks = constTasks/testsPerRound
-constWorkers
-constWorkers/2
-plot(constWorkers)
+%offsetTasks = offsetTasks/testsPerRound
+%offsetWorkers = offsetWorkers/testsPerRound
+plot(constTasks)
 end
 
