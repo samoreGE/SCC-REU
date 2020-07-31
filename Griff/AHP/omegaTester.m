@@ -8,7 +8,7 @@ folder = fileparts(which('omegaTester.m'));
 % Add that folder plus all subfolders to the path.
 addpath(genpath(folder));
 testsPerRound = 20
-maxMembers = 20
+maxMembers = 50
 
 constTasks = zeros(maxMembers, 3);
 constWorkers = zeros(maxMembers, 3);
@@ -19,9 +19,7 @@ constWorkers(1,1:3) = testsPerRound;
 
 for z = 1:testsPerRound
     z
-    [taskScores,  workerScores] = aggTester(maxMembers, maxMembers-1);
-    offsetTasks = offsetTasks + taskScores;
-    offsetWorkers = offsetWorkers + workerScores;
+    debug = "Step 1: Max Size"
     for x = 2:maxMembers
         [taskMid,  workerMid] = aggTester(x, 1);
         newTasks(x, 1) = taskMid(2,1);
@@ -33,12 +31,17 @@ for z = 1:testsPerRound
     end
     constTasks = constTasks+ newTasks;
     constWorkers = constWorkers + newWorkers;
+    debug = "Step 2: Offsets"
+    [taskScores,  workerScores] = aggTester(maxMembers, maxMembers-1);
+    offsetTasks = offsetTasks + taskScores;
+    offsetWorkers = offsetWorkers + workerScores;
 end
 
+debug = "Step 3: Normalize Values"
 constWorkers = constWorkers/testsPerRound
 constTasks = constTasks/testsPerRound
 offsetTasks = offsetTasks/testsPerRound
 offsetWorkers = offsetWorkers/testsPerRound
-plot(constTasks)
+plot(constWorkers)
 end
 
