@@ -2,13 +2,13 @@ function omegaTester = omegaTester()
 clc
 %OMEGATESTER Summary of this function goes here
 %   Detailed explanation goes here
-
+rng(1)
 % Determine where your m-file's folder is.
 folder = fileparts(which('omegaTester.m')); 
 % Add that folder plus all subfolders to the path.
 addpath(genpath(folder));
-testsPerRound = 20
-maxMembers = 50
+testsPerRound = 5
+maxMembers = 20
 
 constTasks = zeros(maxMembers, 3);
 constWorkers = zeros(maxMembers, 3);
